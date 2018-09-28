@@ -3,24 +3,43 @@
 module.exports = {
 
     create: (req, res) => {
-        let { imageUrl, productName, price } = req.body;
-        console.log(imageUrl, productName, price)
+        const { imageUrl, productName, price } = req.body;
         const dbInstance = req.app.get('db')
         dbInstance.create_product([imageUrl, productName, price]).then((response) => {
             res.status(200).send(response)
+        })
+        .catch((err) => {
+            console.log(err)
         })
     },
 
     read: (req, res) => {
         const dbInstance = req.app.get('db')
-    dbInstance.get_inventory().then((response) => {
-        res.status(200).send(response)
-    })
+        dbInstance.get_inventory().then((response) => {
+            res.status(200).send(response)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     },
     update: (req, res) => {
-
+        const { id } = req.params;
+        const dbInstance = req.app.get('db')
+        dbInstance.delete_product([id]).then((response) => {
+            res.status(200).send(response)
+        })
+            .catch((err) => {
+                console.log(err)
+            })
     },
     delete: (req, res) => {
-        
+        const { id } = req.params;
+        const dbInstance = req.app.get('db')
+        dbInstance.delete_product([id]).then((response) => {
+            res.status(200).send(response)
+        })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 }

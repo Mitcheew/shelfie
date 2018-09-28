@@ -9,25 +9,38 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      inventory: []
+      inventory: [],
+      selected: {}
     }
-    this.componentDidMount = this.componentDidMount.bind(this)
+    this.getInventory = this.getInventory.bind(this)
+    this.setSelected = this.setSelected.bind(this)
   }
 
-componentDidMount(){
-  axios.get('/api/inventory/')
-  .then(res => {
-    this.setState({
-      inventory: res.data
+  componentDidMount() {
+    this.getInventory()
+  }
+
+  getInventory(){
+    axios.get('/api/inventory/')
+    .then(res => {
+      this.setState({
+        inventory: res.data
+      })
     })
-  })
-}
-  
+  }
+
+  setSelected(val){
+    this.setState({
+      selected: val
+    })
+  }
+
   render() {
+    console.log(this.state.selected)
     return (
       <div className="App">
-        <Dashboard inventory={this.state.inventory} />
-        <Form getInventory={this.componentDidMount}/>
+        <Dashboard getInventory={this.getInventory} setSelect={this.setSelected} inventory={this.state.inventory} />
+        <Form getInventory={this.getInventory} selected={this.state.selected} inventory={this.state.inventory} />
         <Header />
       </div>
     );
