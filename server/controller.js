@@ -24,8 +24,9 @@ module.exports = {
     },
     update: (req, res) => {
         const { id } = req.params;
+        const { imageUrl, productName, price } = req.query;
         const dbInstance = req.app.get('db')
-        dbInstance.delete_product([id]).then((response) => {
+        dbInstance.delete_product([id, imageUrl, productName, price ]).then((response) => {
             res.status(200).send(response)
         })
             .catch((err) => {
